@@ -17,6 +17,13 @@ This little script allows for the extraction of this TOTP key, so it can be used
 There is a script in this repo, in which you can paste the seed, to check the validity of the otp code from your app, or simply to validate the code the first time.
 If you need an hint, I found and use [Aegis Authenticator](https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis), pretty cool and open source too.
 
+# Usage
+1. After cloning the repo run the command `pip install -r requirements.txt`
+2. Open the Aruba website, and start the association with the ArubaOTP app
+3. When QR code appears copy the code on the right (without spaces)
+4. Run the command `python ./scripts/main.py extract <validation_code>`, add `-q` flag if you need the QR representation
+5. Run the command `python ./script/main.py generate` to get the current OTP code
+
 # WARNING
 Always make a backup of your seed, without it you could lose access to your aruba account!  
 I don't take responsibility from any damage caused by this script.  
