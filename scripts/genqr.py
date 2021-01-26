@@ -21,8 +21,8 @@ def generate_and_print(seed=None):
 	print('In case the qr code won\'t show up, use a qr generator to convert this uri:')
 	print(uri)
 	
-	qr = qrcode.QRCode()
+	qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_L)
 	qr.add_data(uri)
 	
-	qr.print_ascii()
+	qr.print_ascii(invert=True)
 	# qr.print_tty()  # nicer, but glitches out pretty bad
