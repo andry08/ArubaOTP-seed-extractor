@@ -15,7 +15,7 @@ def generate_and_print(seed=None):
 		'user': 'userID',
 		'secret': seed,
 		'algo': 'SHA256',
-		'digits': 6
+		'digits': 8
 	}
 
 	print('In case the qr code won\'t show up, use a qr generator to convert this uri:')

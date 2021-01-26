@@ -25,7 +25,7 @@ def extract(activation_code, only_output, show_qr):
         extractor.write_seed_file(seed)
 
     if show_qr:
-        print_qr(show_qr)
+        print_qr(seed)
 
 def generate(seed, time):
     code = totptest.generate(seed, time)

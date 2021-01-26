@@ -19,10 +19,10 @@ If you need an hint, I found and use [Aegis Authenticator](https://play.google.c
 
 # Usage
 1. After cloning the repo run the command `pip install -r requirements.txt`
-2. Open the Aruba website, and start the association with the ArubaOTP app
-3. When QR code appears copy the code on the right (without spaces)
+2. Open the Aruba website and start the pairing, ignoring the ArubaOTP step
+3. When the QR code appears copy the code on the right (without spaces)
 4. Run the command `python ./scripts/main.py extract <validation_code>`, add `-q` flag if you need the QR representation
-5. Run the command `python ./script/main.py generate` to get the current OTP code
+5. Run the command `python ./scripts/main.py generate` to get the current OTP code
 
 # WARNING
 Always make a backup of your seed, without it you could lose access to your aruba account!  
