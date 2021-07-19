@@ -1,10 +1,11 @@
-certifi==2020.12.5
+certifi==2021.5.30
 chardet==4.0.0
+charset-normalizer==2.0.3
 colorama==0.4.4
-idna==2.10
+idna==3.2
 pycryptodome==3.10.1
 pyotp==2.6.0
-qrcode==6.1
-requests==2.25.1
-six==1.15.0
-urllib3==1.26.4
+qrcode==7.2
+requests==2.26.0
+six==1.16.0
+urllib3==1.26.6
