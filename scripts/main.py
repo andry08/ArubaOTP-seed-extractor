@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import argparse
+from os import minor
 import re as regex
 import traceback
+import sys
 
 # local import
 import request as extractor
@@ -33,15 +35,32 @@ def generate(seed, time):
 
 def print_qr(seed):
     genqr.generate_and_print(seed)
-        
+
+
+
+def check_python_version():
+    # check majour version
+    if sys.version_info.major < 3:
+        print('You must use python 3 or higher')
+        exit()
+    
+    # check minor release
+    use_required = not (sys.version_info.major == 3 and sys.version_info.minor <= 6)
+
+    return use_required
 
 def main():
+    # check version
+    use_required = check_python_version()
+
+
     # parsing argument
     parser = argparse.ArgumentParser(description='This is a tool to extract ArubaOTP seed and generate OTP codes')
 
     # first sub command
-    subparser = parser.add_subparsers(title='option', required=True, dest='option',
-                                      description='What do you want to do?')
+    add_subparsers_params = {'required': True} if use_required else {}
+    subparser = parser.add_subparsers(title='option', dest='option',
+                                      description='What do you want to do?', **add_subparsers_params)
 
     # execute command
     execute_parser = subparser.add_parser('extract', help='Extract ArubaOTP seed')
@@ -78,6 +97,8 @@ def main():
             print_qr(args.seed)
         elif args.option == 'generate':
             generate(args.seed, args.time)
+        else:
+            print('Option is missing')
     except:
         traceback.print_exc()
 
