@@ -33,7 +33,7 @@ def extract_otp(activation_code):
 		'applicationcode': app_code,
 		'activationcode': CBCUtil.encrypt(encryption_key, activation_code),
 		'authtoken': CBCUtil.encrypt(encryption_key, str(int(time.time() * 1000))),
-		'otp1': pyotp.TOTP(base64.b32encode(base64.b16decode(seed)), digits=8, digest=hashlib.sha256).now(),
+		'otp1': pyotp.TOTP(base64.b32encode(base64.b16decode(seed)), digits=8, digest=hashlib.sha256, interval=60).now(),
 		'otp2': ''
 	}
 	req2 = requests.post('https://mobile.strongauth.it/MobileLicenceServer/webresources/MobileLicenceService/SeedValidate', json=payload, headers=user_agent)
