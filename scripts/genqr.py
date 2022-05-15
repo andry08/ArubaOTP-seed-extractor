@@ -1,22 +1,25 @@
+import json
 import os
-import base64
 import qrcode
 
-def generate_and_print(seed=None):
+def generate_and_print(seed=None, otp_type='TOTP', digits=8, period=60, counter=0):
 	if seed is None:
 		try:
-			with open(os.path.join(os.sys.path[0], 'seed.txt'), 'r') as f:
-				seed = f.readline()
+			with open(os.path.join(os.sys.path[0], 'seed.json'), 'r') as f:
+				seed, otp_type, digits, period, counter = json.loads(f.read())
+				period = period/1000
 		except Exception as e:
 			raise Exception('Error while reading seed file, make sure to execute the request.py script before this') from e
 	
-	uri = 'otpauth://totp/%(issuer)s:%(user)s?secret=%(secret)s&issuer=%(issuer)s&algorithm=%(algo)s&digits=%(digits)d&period=%(period)d' % {
+	uri = 'otpauth://%(type)s/%(issuer)s:%(user)s?secret=%(secret)s&issuer=%(issuer)s&algorithm=%(algo)s&digits=%(digits)d&period=%(period)d' % {
+		'type': otp_type.lower(),
 		'issuer': 'Aruba',
 		'user': 'userID',
 		'secret': seed,
 		'algo': 'SHA256',
-		'digits': 8,
-		'period': 60
+		'digits': digits,
+		'period': period,
+		'counter': counter
 	}
 
 	print('In case the qr code won\'t show up, use a qr generator to convert this uri:')
