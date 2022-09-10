@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import argparse
-from os import minor
 import re as regex
 import traceback
 import sys
@@ -29,8 +28,8 @@ def extract(activation_code, only_output, show_qr):
 	if show_qr:
 		genqr.generate_and_print(seed, otp_type, digits, period, counter)
 
-def generate(seed, time):
-	code = otputil.generate_totp(seed, time)
+def generate(seed, digits, interval, time):
+	code = otputil.generate_totp(seed, digits, interval, time)
 	print('Your code is: {}'.format(code))
 
 def check_python_version():
@@ -77,6 +76,11 @@ def main():
 								 help='Use seed in the parameter')
 	generate_parser.add_argument('-t', '--time', type=int,
 								 help='Generate OTP in a precise time (UnixEpoch time)')
+	generate_parser.add_argument('-d', '--digits', type=int, default=8,
+								 help='Number of digits of OTP output')
+	generate_parser.add_argument('-i', '--interval', type=int, default=60,
+								 help='The OTP interval (in seconds)')
+
 
 	# parsing
 	args = parser.parse_args()
@@ -87,7 +91,7 @@ def main():
 		elif args.option == 'printqr':
 			genqr.generate_and_print()
 		elif args.option == 'generate':
-			generate(args.seed, args.time)
+			generate(args.seed, args.digits, args.interval, args.time)
 		else:
 			print('Option is missing')
 	except:
