@@ -1,30 +1,33 @@
 >This project is useful only to Italian people, but feel free to take a look if you want.  
->Why am I writing this in english? I don't know.
 # ArubaOTP seed extractor
-[Aruba](https://aruba.it/) is an Italian service provider (not to be confused with Aruba Networks) which provides numerous services.
-One of these services is [SPID](https://it.wikipedia.org/wiki/SPID), the Italian version of [eIDAS](https://en.wikipedia.org/wiki/EIDAS),
-and its level 2 requires 2FA to be enabled.  
-Aruba implements this with it's own app, called [ArubaOTP](https://play.google.com/store/apps/details?id=it.aruba.pec.mobile.otp) which under the hood is just
-an implementation of TOTP, but the secret key never gets exposed to the user (the app pairs with an unique identifier, which is just a long number).
+[Aruba](https://aruba.it/) è uno dei fornitori di [SPID](https://it.wikipedia.org/wiki/SPID) in Italia, il cui livello 2, necessario per accedere a molti dei servizi
+che offrono questo metodo di login, richiede l'attivazione dell'autenticazione 2FA.
+Aruba la implementa con la sua app ([ArubaOTP](https://play.google.com/store/apps/details?id=it.aruba.pec.mobile.otp)) che al suo interno utilizza
+un 'implementazione standard di TOTP, ma il seed (la chiave segreta per effettuare la generazione) non viene mai esposta direttamente all'utente,
+visto che l'associazione in app avviene attraverso un qr code, che contiene solamente un numero, che viene scambiato con il server al fine di ottenere
+il seed vero e proprio.
 
-## So, why this?
-This little script allows for the extraction of this TOTP key, so it can be used in another authenticator app.  
->**NOTE** however that some apps don't support the HMAC-SHA256 algorithm for TOTP generation, take a look at [this article](https://labanskoller.se/blog/2019/07/11/many-common-mobile-authenticator-apps-accept-qr-codes-for-modes-they-dont-support/) for example (it's a bit old, however).
+## Perchè
+Questo piccolo script permette l'estrazione del seed TOTP, in modo da poterlo utilizzare in un altra app (magari quella che usi normalmente per il 2FA),
+ed evitare di installare un altra app inutile nel telefono.
+>**NOTA BENE** Alcune app non supportano l'algoritmo `HMAC-SHA256` per il TOTP.
+>- Google Authenticator supporta solamente codici a 6 cifre (inoltre su android non supporta l'algorimo specificato, mentre su apple si)
+>- Authy non supporta l'algoritmo, ma non fornisce alcun'avvertimento a riguardo. Leggendo il qr non darà errore, ma fornirà codici sbagliati.
 
-- Google Authenticator sadly doesn't even implement support for a custom number of digits (8 are needed for this purpose)
-- Authy doesn't support the sha256 algorithm, but it doesn't explicitly mention it. Reading the qr code with this will lead to a successful import, but a wrong code to be generated.
+Se volete un suggerimento, io ho trovato ed utilizzo tuttora [Aegis Authenticator](https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis)
 
-There is a script in this repo, in which you can paste the seed, to check the validity of the otp code from your app, or simply to validate the code the first time.
-If you need an hint, I found and use [Aegis Authenticator](https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis), pretty cool and open source too.
+# Utilizzo
+1. Clona la repo (usando il comando git, o in alto a destra il pulsante download, scarica come zip), e assicurati di avere python installato (versione 3.6 e superiori)
+2. Apri un terminale all'interno della cartella ed esegui `pip install -r requirements.txt` per installare le dipendenze richieste
+3. Apri il sito di Aruba, inizia il processo per associare l'app, e ignora il passo in cui ti chiede di installare l'app sul telefono
+4. Adesso che ti trovi nella pagina con il QR code, copia il numero presente sotto il QR, facendo attenzione a rimuovere eventuali spazi prima e dopo. 
+>**Non scansionare il QR con l'app aruba, altrimenti lo script non potrà fare il suo lavoro**
+6. Esegui il comando `python ./scripts/main.py extract <validation_code> -q` per estrarre il codice, che verrà stampato a schermo in caso di successo.
+7. Scansiona il codice con l'app di tua scelta e inserisci il codice sul sito aruba per confermare l'associazione
+> In alternativa puoi usare il comando `python ./scripts/main.py generate` per ottenere il codice per l'associazione ed il comando `python ./scripts/main.py printqr` 
+> in un secondo momento per generare il qr per salvare il codice sul telefono
 
-# Usage
-1. After cloning the repo run the command `pip install -r requirements.txt`
-2. Open the Aruba website and start the pairing, ignoring the ArubaOTP step
-3. When the QR code appears copy the code on the right (without spaces)
-4. Run the command `python ./scripts/main.py extract <validation_code>`, add `-q` flag if you need the QR representation
-5. Run the command `python ./scripts/main.py generate` to get the current OTP code
+# ATTENZIONE
+Ricorda di fare un backup del seed, altrimenti rischi di rimanere chiuso fuori dal tuo account! (Ovvio ci sono le procedure di recupero ma comunque...)
 
-# WARNING
-Always make a backup of your seed, without it you could lose access to your aruba account!  
-I don't take responsibility from any damage caused by this script.  
-This project was made only for educational purposes
+**Non mi assumo alcuna responsabilità per danni derivanti dall'uso di questo script.**
