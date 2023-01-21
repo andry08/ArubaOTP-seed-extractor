@@ -8,11 +8,14 @@ visto che l'associazione in app avviene attraverso un qr code, che contiene sola
 il seed vero e proprio.
 
 ## Perchè
-Questo piccolo script permette l'estrazione del seed TOTP, in modo da poterlo utilizzare in un altra app (magari quella che usi normalmente per il 2FA),
-ed evitare di installare un altra app inutile nel telefono.
+Questo piccolo script permette l'estrazione del seed TOTP, in modo da poterlo utilizzare in un'altra app (magari quella che usi normalmente per il 2FA),
+ed evitare di installare un'altra app inutile nel telefono.
+
+Oltre che per la 2FA relativa allo SPID, l'estrazione del seed TOTP funziona anche per la 2FA relativa alla firma digitale remota di Aruba.
+
 >**NOTA BENE** Alcune app non supportano l'algoritmo `HMAC-SHA256` per il TOTP.
 >- Google Authenticator supporta solamente codici a 6 cifre (inoltre su android non supporta l'algorimo specificato, mentre su apple si)
->- Authy non supporta l'algoritmo, ma non fornisce alcun'avvertimento a riguardo. Leggendo il qr non darà errore, ma fornirà codici sbagliati.
+>- Authy non supporta l'algoritmo, ma non fornisce alcun avvertimento a riguardo. Leggendo il qr non darà errore, ma fornirà codici sbagliati.
 
 Se volete un suggerimento, io ho trovato ed utilizzo tuttora [Aegis Authenticator](https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis)
 
