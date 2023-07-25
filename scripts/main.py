@@ -19,14 +19,14 @@ def filter_activation_code(value):
 	return value
 
 def extract(activation_code, only_output, show_qr):
-	seed, otp_type, digits, period, counter = extractor.request_otp(activation_code)
+	seed, otp_type, digits, period, counter, algo = extractor.request_otp(activation_code)
 	print('Your seed is: {}'.format(seed))
 
 	if not only_output:
-		extractor.write_seed_file(seed, otp_type, digits, period, counter)
+		extractor.write_seed_file(seed, otp_type, digits, period, counter, algo)
 
 	if show_qr:
-		genqr.generate_and_print(seed, otp_type, digits, period, counter)
+		genqr.generate_and_print(seed, otp_type, digits, period, counter, algo)
 
 def generate(seed, digits, interval, time):
 	code = otputil.generate_totp(seed, digits, interval, time)

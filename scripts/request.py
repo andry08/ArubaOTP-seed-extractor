@@ -32,7 +32,8 @@ def request_otp(activation_code):
 	otp_type = resp1['tokentype']
 	digits = resp1['digit']
 	period = resp1['stepsize']
-	counter = CBCUtil.decrypt(encryption_key, resp1['counter'])
+	counter = int(CBCUtil.decrypt(encryption_key, resp1['counter']))
+	algo = ''
 
 	# validate seed
 	payload = {
@@ -43,10 +44,13 @@ def request_otp(activation_code):
 		'otp2': ''
 	}
 	if (otp_type == 'TOTP'):
+		algo = 'SHA256'
 		payload['otp1'] = pyotp.TOTP(seed_b32, digits=digits, digest=hashlib.sha256, interval=period/1000).now()
 	elif (otp_type == 'HOTP'):
-		payload['otp1'] = pyotp.HOTP(seed_b32, counter)
-		payload['otp2'] = pyotp.HOTP(seed_b32, counter + 1)
+		algo = 'SHA1'
+		payload['otp1'] = pyotp.HOTP(seed_b32, digits=digits, digest=hashlib.sha1, initial_count=counter).at(0)
+		payload['otp2'] = pyotp.HOTP(seed_b32, digits=digits, digest=hashlib.sha1, initial_count=counter).at(1)
+		counter = counter + 2
 	else:
 		raise Exception('Unknown tokentype: "{}"'.format(otp_type))
 	req2 = requests.post('https://mobile.strongauth.it/MobileLicenceServer/webresources/MobileLicenceService/SeedValidate', json=payload, headers=req_headers)
@@ -55,9 +59,9 @@ def request_otp(activation_code):
 	if (resp2['returncode'] != '0000'):
 		raise Exception('Error occured in seed validation: [{}] {}'.format(resp2['returncode'], resp2['description']))
 	
-	return [seed_b32, otp_type, digits, period, counter]
+	return [seed_b32, otp_type, digits, period, counter, algo]
 
-def write_seed_file(seed, otp_type, digits, period, counter):
+def write_seed_file(seed, otp_type, digits, period, counter, algo):
 	with open(os.path.join(os.sys.path[0], 'seed.json'), 'w') as text_file:
-		text_file.write(json.dumps([seed, otp_type, digits, period, counter]))
+		text_file.write(json.dumps([seed, otp_type, digits, period, counter, algo]))
 		
