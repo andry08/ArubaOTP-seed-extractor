@@ -13,6 +13,8 @@ ed evitare di installare un'altra app inutile nel telefono.
 
 Oltre che per la 2FA relativa allo SPID, l'estrazione del seed TOTP funziona anche per la 2FA relativa alla firma digitale remota di Aruba.
 
+Permette anche l'estrazione del seed HOTP pre la 2FA relativa all'accesso ad Aruba Cloud.
+
 >**NOTA BENE** Alcune app non supportano l'algoritmo `HMAC-SHA256` per il TOTP.
 >- Google Authenticator supporta solamente codici a 6 cifre (inoltre su android non supporta l'algorimo specificato, mentre su apple si)
 >- Authy non supporta l'algoritmo, ma non fornisce alcun avvertimento a riguardo. Leggendo il qr non darà errore, ma fornirà codici sbagliati.
