@@ -20,15 +20,31 @@ Oltre che per la 2FA relativa allo SPID, l'estrazione del seed TOTP funziona anc
 Se volete un suggerimento, io ho trovato ed utilizzo tuttora [Aegis Authenticator](https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis)
 
 # Utilizzo
-1. Clona la repo (usando il comando git, o in alto a destra il pulsante download, scarica come zip), e assicurati di avere python installato (versione 3.6 e superiori)
-2. Apri un terminale all'interno della cartella ed esegui `pip install -r requirements.txt` per installare le dipendenze richieste
-3. Apri il sito di Aruba, inizia il processo per associare l'app, e ignora il passo in cui ti chiede di installare l'app sul telefono
-4. Adesso che ti trovi nella pagina con il QR code, copia il numero presente sotto il QR, facendo attenzione a rimuovere eventuali spazi prima e dopo. 
->**Non scansionare il QR con l'app aruba, altrimenti lo script non potrà fare il suo lavoro**
-6. Esegui il comando `python ./scripts/main.py extract <validation_code> -q` per estrarre il codice, che verrà stampato a schermo in caso di successo.
-7. Scansiona il codice con l'app di tua scelta e inserisci il codice sul sito aruba per confermare l'associazione
-> In alternativa puoi usare il comando `python ./scripts/main.py generate` per ottenere il codice per l'associazione ed il comando `python ./scripts/main.py printqr` 
-> in un secondo momento per generare il qr per salvare il codice sul telefono
+
+## Prerequisito
+Installa [uv](https://docs.astral.sh/uv/): è l'unica cosa che ti serve, perché gestisce in automatico sia Python che le dipendenze.
+Poi clona la repo (con il comando `git clone`, oppure scaricala come zip dal pulsante in alto a destra).
+
+## Procedura
+1. Apri il sito di Aruba, inizia il processo per associare l'app, e ignora il passo in cui ti chiede di installare l'app sul telefono
+2. Adesso che ti trovi nella pagina con il QR code, copia il numero presente sotto il QR, facendo attenzione a rimuovere eventuali spazi prima e dopo
+   >**Non scansionare il QR con l'app aruba, altrimenti lo script non potrà fare il suo lavoro**
+3. Da un terminale nella cartella del progetto esegui:
+   ```sh
+   ./launch.sh extract <validation_code> -q
+   ```
+   Al primo avvio uv crea un ambiente isolato e installa le dipendenze in automatico; il seed verrà stampato a schermo in caso di successo.
+4. Scansiona il codice con l'app di tua scelta e inserisci il codice sul sito aruba per confermare l'associazione
+
+> In alternativa puoi usare `./launch.sh generate` per ottenere il codice per l'associazione, ed il comando `./launch.sh printqr` in un secondo momento per generare il qr per salvare il codice sul telefono
+
+## Compatibilità (pip)
+Se preferisci non usare uv, puoi ancora installare le dipendenze con pip (serve Python 3.6 o superiore installato manualmente):
+```sh
+pip install -r requirements.txt
+python ./scripts/main.py extract <validation_code> -q
+```
+I comandi `generate` e `printqr` funzionano allo stesso modo, sostituendo `./launch.sh` con `python ./scripts/main.py`.
 
 # ATTENZIONE
 Ricorda di fare un backup del seed, altrimenti rischi di rimanere chiuso fuori dal tuo account! (Ovvio ci sono le procedure di recupero ma comunque...)
