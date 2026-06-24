@@ -1,0 +1,18 @@
+[project]
+name = "arubaotp-seed-extractor"
+version = "1.0.0"
+description = "Extract the TOTP seed from an ArubaOTP activation code and generate OTP codes."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+dependencies = [
+    "pycryptodome==3.16.0",
+    "pyotp==2.8.0",
+    "qrcode==7.3.1",
+    "requests==2.28.1",
+]
+
+# Not an installable package: uv only provisions the dependencies above into an
+# isolated environment; the tool is run as plain scripts under scripts/.
+[tool.uv]
+package = false
