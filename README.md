@@ -1,5 +1,13 @@
 >This project is useful only to Italian people, but feel free to take a look if you want.  
 # ArubaOTP seed extractor
+
+> [!WARNING]
+> **Progetto non più mantenuto (Archiviato)**
+>
+> Poiché Aruba ha reso il proprio SPID a pagamento da maggio 2025, non utilizzo più questo strumento e non ho più modo di testare o validare eventuali modifiche al codice. Il repository resta disponibile a scopo informativo/storico, ma non riceverà ulteriori aggiornamenti né supporto per issue o pull request.
+>
+>Se cerchi una versione più aggiornata, puoi dare un'occhiata al fork [cristianlivella/ArubaOTP-seed-extractor](https://github.com/cristianlivella/ArubaOTP-seed-extractor) *(non verificato dal sottoscritto)*, oppure ad altri [fork qui](https://github.com/andry08/ArubaOTP-seed-extractor/forks).
+
 [Aruba](https://aruba.it/) è uno dei fornitori di [SPID](https://it.wikipedia.org/wiki/SPID) in Italia, il cui livello 2, necessario per accedere a molti dei servizi
 che offrono questo metodo di login, richiede l'attivazione dell'autenticazione 2FA.
 Aruba la implementa con la sua app ([ArubaOTP](https://play.google.com/store/apps/details?id=it.aruba.pec.mobile.otp)) che al suo interno utilizza
